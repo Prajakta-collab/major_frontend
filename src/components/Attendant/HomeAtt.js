@@ -138,6 +138,10 @@ const HomeAtt = () => {
                                 <button onClick={handleSearch} type="button" className="btn btn-primary">
                                     <i className="fas fa-search"></i>
                                 </button>
+                           
+                            </div>
+                            <div>
+                                <button><i className="fas fa-qrcode"></i></button>
                             </div>
 
 
@@ -154,6 +158,7 @@ const HomeAtt = () => {
 
                                             <div class="card-body card">
                                                 <p class="card-text">Transaction Id : {req?.transaction_no}</p>
+                                                <button class="btn" align="right"> <i class="fa fa-download"></i>  </button>
                                                 <h5 class="card-title">Vehicle Number: {req?.vehicle_no}</h5>
                                                 <p class="card-text">Customer ID: {req?.vehicle_owner?._id}</p>
                                                 <p class="card-text">Customer Name :{req?.vehicle_owner?.name}</p>
@@ -168,6 +173,7 @@ const HomeAtt = () => {
                                                           )
                                                     }
                                                 }}>Request Complete</button>
+                                                
                                             </div>
                                         </div>)
                                 })
