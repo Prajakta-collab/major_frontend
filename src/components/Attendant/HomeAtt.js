@@ -135,14 +135,16 @@ const HomeAtt = () => {
                                 <div className="form-outline">
                                     <input onChange={handleChange} onBlur={()=>{getrequest()}} type="search" placeholder="Search Bar" id="form1" className="form-control" />
                                 </div>
+
                                 <button onClick={handleSearch} type="button" className="btn btn-primary">
-                                    <i className="fas fa-search"></i>
+                                    <i className="fas fa-search btn m-0"></i>
                                 </button>
-                           
-                            </div>
-                            <div>
-                                <button><i className="fas fa-qrcode"></i></button>
-                            </div>
+                            
+                            
+                                <span>
+                                <button  class="btn btn-lg float-end mx-3"><i className="fas fa-qrcode"></i></button>
+                                </span> 
+                                </div>
 
 
                         </div>
@@ -157,12 +159,14 @@ const HomeAtt = () => {
                                             {/* <h5 class="card-header">Customer Name</h5> */}
 
                                             <div class="card-body card">
-                                                <p class="card-text">Transaction Id : {req?.transaction_no}</p>
-                                                <button class="btn" align="right"> <i class="fa fa-download"></i>  </button>
-                                                <h5 class="card-title">Vehicle Number: {req?.vehicle_no}</h5>
+                                               <div>
+                                               <span> <button class="btn btn-lg float-end fs-4 third-text border rounded-full secondary-bg p-3"> <i class="fa fa-download"></i>  </button></span>                                     <p class="card-text">Transaction Id : {req?.transaction_no}</p>
+    
+                                               <h5 class="card-title">Vehicle Number: {req?.vehicle_no}</h5>
                                                 <p class="card-text">Customer ID: {req?.vehicle_owner?._id}</p>
                                                 <p class="card-text">Customer Name :{req?.vehicle_owner?.name}</p>
                                                 <p class="card-text">Requested Credit: {req?.debit}</p>
+                                                </div>
                                                 <button class="btn btn-outline-primary" onClick={async() => {
                                                     const ans= await completerequest(req._id);
                                                     if(ans.success) {
