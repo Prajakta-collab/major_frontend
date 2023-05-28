@@ -5,6 +5,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import creditContext from '../../context/credits/creditContext';
 import AttSidebar from '../Sidebar/AttSidebar';
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 
 const HomeAtt = () => {
@@ -12,9 +13,28 @@ const HomeAtt = () => {
     
 
     const context = useContext(creditContext);
-    const { credit, searchByvno,request, getrequest, completerequest,cardpump,getcardpumpat ,toggle,handleToggle} = context;
+    const {  searchByvno,request, getrequest, completerequest,cardpump,getcardpumpat ,handleToggle} = context;
 
     const [vehicleNo,setVehicleNo]=useState("")
+    
+  const [file, setfile] = useState({selectedfile:null})
+  const onChangeHandler=(e)=>{
+setfile({selectedfile:e.target.files[0]})
+  }
+  const onScanClick = () => {
+    const data = new FormData();
+    data.append("file", this.state.selectedFile);
+    
+    axios
+    .post("http://localhost:5001/api/fuel/uploadqr", data)
+    .then(res => {
+       console.log("res.statusText",res.statusText);
+       
+    })
+    .catch(err => {
+       console.log(err);
+    });
+ };
 
     useEffect(() => {
         getrequest();
@@ -31,8 +51,7 @@ const HomeAtt = () => {
         setVehicleNo(e.target.value);
     }
 
-
-
+   
    
     return (
 
@@ -139,12 +158,12 @@ const HomeAtt = () => {
                                 <button onClick={handleSearch} type="button" className="btn btn-primary">
                                     <i className="fas fa-search btn m-0"></i>
                                 </button>
-                            
-                            
-                                <span>
-                                <button  class="btn btn-lg float-end mx-3"><i className="fas fa-qrcode"></i></button>
-                                </span> 
-                                </div>
+                           
+                            </div>
+                            <div>
+                            <input type="file" onChange={onChangeHandler} />
+                                <button onClick={onScanClick}><i className="fas fa-qrcode"></i></button>
+                            </div>
 
 
                         </div>
