@@ -1,6 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import Navbar from '../Navbar'
+import exportFromJSON from 'export-from-json' 
 
 import creditContext from '../../context/credits/creditContext';
 import { Link, useLocation, useHistory } from "react-router-dom";
@@ -10,6 +11,13 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import CurrencyInput from 'react-currency-input-field';
 import Swal from 'sweetalert2';
+
+
+const data = [{ foo: 'foo' }, { bar: 'bar' }] 
+const fileName = 'download'  
+const exportType = 'xls'  
+
+
 
 
 const Customer = () => {
@@ -23,6 +31,10 @@ const Customer = () => {
 
   const { postpay, custdetails,getcusttr, getcustdetails,custtr, handleToggle,updatecust,deletecust, toggle,reactive } = context;
 
+  const ExportToExcel = () => {  
+    console.log("Custr",custtr);
+    exportFromJSON({ custtr, fileName, exportType })  
+  } 
   useEffect(() => {
     getcusttr(idd);
   }, [custtr])
@@ -77,7 +89,6 @@ const handlereactive=(idd)=>{
   
 
  }
-
 
 
 
@@ -481,6 +492,17 @@ const handlereactive=(idd)=>{
 
 
                         </div>
+
+                        <div>
+                        <span> 
+                          <button class="btn btn-lg float-end fs-4 third-text border rounded-full secondary-bg pr-3 mr-3"  onClick={ExportToExcel}> 
+                          <i class="fa fa-download"></i> 
+                           </button>
+                           </span>                
+                        </div>
+                       
+                       
+                       
 
                         <div className="row my-5 mx-3">
                             <h3 className="fs-4 mb-3">Transaction</h3>
