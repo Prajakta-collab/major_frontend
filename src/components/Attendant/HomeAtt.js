@@ -1,70 +1,67 @@
-import React, { useState, useRef, useContext, useEffect } from 'react'
-import Navbar from '../Navbar'
-import CountUp from 'react-countup';
+import React, { useState, useRef, useContext, useEffect } from "react";
+import Navbar from "../Navbar";
+import CountUp from "react-countup";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import creditContext from '../../context/credits/creditContext';
-import AttSidebar from '../Sidebar/AttSidebar';
-import Swal from 'sweetalert2'
-import axios from 'axios'
-
-
+import creditContext from "../../context/credits/creditContext";
+import AttSidebar from "../Sidebar/AttSidebar";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const HomeAtt = () => {
-  
-    const context = useContext(creditContext);
-    const {  readqr,downloadqr,searchByvno,request, getrequest, completerequest,cardpump,getcardpumpat ,handleToggle} = context;
+  const context = useContext(creditContext);
+  const {
+    readqr,
+    downloadqr,
+    searchByvno,
+    request,
+    getrequest,
+    completerequest,
+    cardpump,
+    getcardpumpat,
+    handleToggle,
+  } = context;
 
-    const [vehicleNo,setVehicleNo]=useState("")
-    
-  const [file, setfile] = useState({selectedfile:null})
-  const onChangeHandler=(e)=>{
-setfile({selectedfile:e.target.files[0]})
-  }
+  const [vehicleNo, setVehicleNo] = useState("");
+
+  const [file, setfile] = useState({ selectedfile: null });
+  const onChangeHandler = (e) => {
+    setfile({ selectedfile: e.target.files[0] });
+  };
   const onScanClick = () => {
     const data = new FormData();
     data.append("file", file.selectedFile);
 
-    console.log("data",data);
-    console.log("file",file.selectedfile)
-    Swal.fire(
-        'Amount - 1000',
-        'QR Decoded Successfully!',
-        'success'
-      )
-    
- };
+    console.log("data", data);
+    console.log("file", file.selectedfile);
+    Swal.fire("Amount - 1000", "QR Decoded Successfully!", "success");
+  };
 
-    useEffect(() => {
-        getrequest();
-        getcardpumpat();
-    }, [request])
+  useEffect(() => {
+    getrequest();
+    getcardpumpat();
+  }, [request]);
 
-    console.log("request get", request)
+  console.log("request get", request);
 
-    const handleSearch=()=>{
-        console.log("search",vehicleNo);
-        searchByvno(vehicleNo);
-    }
-    const handleChange=(e)=>{
-        setVehicleNo(e.target.value);
-    }
+  const handleSearch = () => {
+    console.log("search", vehicleNo);
+    searchByvno(vehicleNo);
+  };
+  const handleChange = (e) => {
+    setVehicleNo(e.target.value);
+  };
 
-   
-   
-    return (
-
-        <div>
-
-            <Navbar />
-            {/* <AddCust/> */}
-            {/* prajakta branch */}
-            {/* <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  return (
+    <div>
+      <Navbar />
+      {/* <AddCust/> */}
+      {/* prajakta branch */}
+      {/* <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Launch demo modal
 </button> */}
 
-
-            <div className="d-flex" id="wrapper">
-                {/* {toggle && <div style={{ backgroundColor: "#3282B8" }} id="sidebar-wrapper">
+      <div className="d-flex" id="wrapper">
+        {/* {toggle && <div style={{ backgroundColor: "#3282B8" }} id="sidebar-wrapper">
                     <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                         className="fas fa-user-secret me-2"></i>FuelBuddy</div>
                     <div className="list-group list-group-flush my-3">
@@ -82,15 +79,19 @@ setfile({selectedfile:e.target.files[0]})
                             className="fas fa-power-off me-2"></i>Logout</a>
                     </div>
                 </div>} */}
-                <AttSidebar/>
+        <AttSidebar />
 
-                <div id="page-content-wrapper">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                        <div className="d-flex align-items-center">
-                            <i className="fas fa-align-left primary-text fs-4 me-3" onClick={handleToggle} id="menu-toggle"></i>
-                            <h2 className="fs-2 m-0">Dashboard</h2>
-                        </div>
-{/* 
+        <div id="page-content-wrapper">
+          <nav className="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+            <div className="d-flex align-items-center">
+              <i
+                className="fas fa-align-left primary-text fs-4 me-3"
+                onClick={handleToggle}
+                id="menu-toggle"
+              ></i>
+              <h2 className="fs-2 m-0">Dashboard</h2>
+            </div>
+            {/* 
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -112,102 +113,132 @@ setfile({selectedfile:e.target.files[0]})
                                 </li>
                             </ul>
                         </div> */}
-                    </nav>
+          </nav>
 
-                    <div className="row g-3 my-2 w-auto px-4">
-                        <div className="col-md-3">
-                            <div className="p-3 text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <h3 className="fs-2">{cardpump.total_req}</h3>
-                                    <p className="fs-5">Total Requests</p>
-                                </div>
-                                <i className="fas fa-regular fa-clipboard-list fs-1 third-text border rounded-full secondary-bg p-3"></i>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3">
-                            <div className="p-3  text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <h3 className="fs-2">{cardpump.pending_req}</h3>
-                                    <p className="fs-5">Pending Requests</p>
-                                </div>
-                                <i className="fas fa-regular fa-hourglass-start fs-1 third-text border rounded-full secondary-bg p-3"></i>
-                            </div>
-                        </div>
-
-                        <div className="col-md-3">
-                            <div className="p-3  text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
-                                <div>
-                                    <h3 className="fs-2">{cardpump.completed_req}</h3>
-                                    <p className="fs-5">Completed Requests</p>
-                                </div>
-                                <i className="fas fa-regular fa-thumbs-up fs-1 third-text border rounded-full secondary-bg p-3"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="container-fluid px-4">
-                        <div className="row g-3 my-2">
-                            {/* Search Bar */}
-                            <div className="input-group">
-                                <div className="form-outline">
-                                    <input onChange={handleChange} onBlur={()=>{getrequest()}} type="search" placeholder="Search Bar" id="form1" className="form-control" />
-                                </div>
-                                <button onClick={handleSearch} type="button" className="btn btn-primary">
-                                    <i className="fas fa-search"></i>
-                                </button>
-                           
-                            </div>
-                            <div>
-                            <input type="file" onChange={onChangeHandler} />
-                                <button onClick={onScanClick}><i className="fas fa-qrcode"></i></button>
-                            </div>
-
-
-                        </div>
-
-                        <div className="row my-5">
-                            <h3 className="fs-4 mb-3">Pending Requests</h3>
-                            <div className="col">
-                                {request?.length === 0 && 'No Pending Requests'}
-                                {request?.map((req) => {
-                                    return (
-                                        <div class="card mt-4">
-                                            {/* <h5 class="card-header">Customer Name</h5> */}
-
-                                            <div class="card-body card">
-                                                <p class="card-text">Transaction Id : {req?.transaction_no}</p>
-                                                <button class="btn" align="right" onClick={async() => {
-                                                    const ans= await downloadqr(req._id);
-                                                   
-                                                }}> <i class="fa fa-download"></i>  </button>
-                                                <h5 class="card-title">Vehicle Number: {req?.vehicle_no}</h5>
-                                                <p class="card-text">Customer ID: {req?.vehicle_owner?._id}</p>
-                                                <p class="card-text">Customer Name :{req?.vehicle_owner?.name}</p>
-                                                <p class="card-text">Requested Credit: {req?.debit}</p>
-                                                <button class="btn btn-outline-primary" onClick={async() => {
-                                                    const ans= await completerequest(req._id);
-                                                    if(ans.success) {
-                                                        Swal.fire(
-                                                            'Done!',
-                                                            'Fuel Delivered Successfully!',
-                                                            'success'
-                                                          )
-                                                    }
-                                                }}>Request Complete</button>
-                                                
-                                            </div>
-                                        </div>)
-                                })
-                                }
-
-                            </div>
-                        </div>
-                    </div>
+          <div className="row g-3 my-2 w-auto px-4">
+            <div className="col-md-3">
+              <div className="p-3 text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                  <h3 className="fs-2">{cardpump.total_req}</h3>
+                  <p className="fs-5">Total Requests</p>
                 </div>
+                <i className="fas fa-regular fa-clipboard-list fs-1 third-text border rounded-full secondary-bg p-3"></i>
+              </div>
             </div>
+
+            <div className="col-md-3">
+              <div className="p-3  text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                  <h3 className="fs-2">{cardpump.pending_req}</h3>
+                  <p className="fs-5">Pending Requests</p>
+                </div>
+                <i className="fas fa-regular fa-hourglass-start fs-1 third-text border rounded-full secondary-bg p-3"></i>
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div className="p-3  text-light bg-dark shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                  <h3 className="fs-2">{cardpump.completed_req}</h3>
+                  <p className="fs-5">Completed Requests</p>
+                </div>
+                <i className="fas fa-regular fa-thumbs-up fs-1 third-text border rounded-full secondary-bg p-3"></i>
+              </div>
+            </div>
+          </div>
+          <div className="container-fluid px-4">
+            <div className="row g-3 my-2">
+              {/* Search Bar */}
+              <div className="input-group">
+                <div className="form-outline">
+                  <input
+                    onChange={handleChange}
+                    onBlur={() => {
+                      getrequest();
+                    }}
+                    type="search"
+                    placeholder="Search Bar"
+                    id="form1"
+                    className="form-control"
+                  />
+                </div>
+
+                <button
+                  onClick={handleSearch}
+                  type="button"
+                  className="btn btn-primary"
+                >
+                  <i className="fas fa-search btn m-0"></i>
+                </button>
+              </div>
+              <div>
+                <input type="file" onChange={onChangeHandler} />
+                <button onClick={onScanClick}>
+                  <i className="fas fa-qrcode"></i>
+                </button>
+              </div>
+            </div>
+
+            <div className="row my-5">
+              <h3 className="fs-4 mb-3">Pending Requests</h3>
+              <div className="col">
+                {request?.length === 0 && "No Pending Requests"}
+                {request?.map((req) => {
+                  return (
+                    <div class="card mt-4">
+                      {/* <h5 class="card-header">Customer Name</h5> */}
+
+                      <div class="card-body card">
+                        <p class="card-text">
+                          Transaction Id : {req?.transaction_no}
+                        </p>
+                        <button
+                          class="btn"
+                          align="right"
+                          onClick={async () => {
+                            const ans = await downloadqr(req._id);
+                          }}
+                        >
+                          {" "}
+                          <i class="fa fa-download"></i>{" "}
+                        </button>
+                        <h5 class="card-title">
+                          Vehicle Number: {req?.vehicle_no}
+                        </h5>
+                        <p class="card-text">
+                          Customer ID: {req?.vehicle_owner?._id}
+                        </p>
+                        <p class="card-text">
+                          Customer Name :{req?.vehicle_owner?.name}
+                        </p>
+                        <p class="card-text">Requested Credit: {req?.debit}</p>
+
+                        <button
+                          class="btn btn-outline-primary"
+                          onClick={async () => {
+                            const ans = await completerequest(req._id);
+                            if (ans.success) {
+                              Swal.fire(
+                                "Done!",
+                                "Fuel Delivered Successfully!",
+                                "success"
+                              );
+                            }
+                          }}
+                        >
+                          Request Complete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+  );
+};
 
-    )
-}
-
-export default HomeAtt
+export default HomeAtt;
