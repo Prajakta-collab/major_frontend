@@ -189,19 +189,29 @@ const HomeAtt = () => {
                       {/* <h5 class="card-header">Customer Name</h5> */}
 
                       <div class="card-body card">
+                      <div className="row  mt-1 my-2 w-auto px-2">
+                      
+                        <div className="col-md-4 mr-1 float-end">
                         <p class="card-text">
                           Transaction Id : {req?.transaction_no}
                         </p>
+                        </div>
+                        <div className="col-md-5 ml-5">
+                      <span>
                         <button
-                          class="btn"
-                          align="right"
+                          className="btn"
+                          align="left"
                           onClick={async () => {
                             const ans = await downloadqr(req._id);
                           }}
                         >
-                          {" "}
-                          <i class="fa fa-download"></i>{" "}
+                       
+                          <i className="fa fa-download fs-3 float-end "></i>
                         </button>
+                        </span>
+                        </div>
+                        </div>
+                        
                         <h5 class="card-title">
                           Vehicle Number: {req?.vehicle_no}
                         </h5>
@@ -211,7 +221,7 @@ const HomeAtt = () => {
                         <p class="card-text">
                           Customer Name :{req?.vehicle_owner?.name}
                         </p>
-                        <p class="card-text">Requested Credit: {req?.debit}</p>
+                        {/*<p class="card-text">Requested Credit: {req?.debit}</p>*/}
 
                         <button
                           class="btn btn-outline-primary"
