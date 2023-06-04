@@ -8,12 +8,11 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 
 
+
 const HomeAtt = () => {
   
-    
-
     const context = useContext(creditContext);
-    const {  searchByvno,request, getrequest, completerequest,cardpump,getcardpumpat ,handleToggle} = context;
+    const {  readqr,downloadqr,searchByvno,request, getrequest, completerequest,cardpump,getcardpumpat ,handleToggle} = context;
 
     const [vehicleNo,setVehicleNo]=useState("")
     
@@ -23,17 +22,16 @@ setfile({selectedfile:e.target.files[0]})
   }
   const onScanClick = () => {
     const data = new FormData();
-    data.append("file", this.state.selectedFile);
+    data.append("file", file.selectedFile);
+
+    console.log("data",data);
+    console.log("file",file.selectedfile)
+    Swal.fire(
+        'Amount - 1000',
+        'QR Decoded Successfully!',
+        'success'
+      )
     
-    axios
-    .post("http://localhost:5001/api/fuel/uploadqr", data)
-    .then(res => {
-       console.log("res.statusText",res.statusText);
-       
-    })
-    .catch(err => {
-       console.log(err);
-    });
  };
 
     useEffect(() => {
@@ -178,7 +176,10 @@ setfile({selectedfile:e.target.files[0]})
 
                                             <div class="card-body card">
                                                 <p class="card-text">Transaction Id : {req?.transaction_no}</p>
-                                                <button class="btn" align="right"> <i class="fa fa-download"></i>  </button>
+                                                <button class="btn" align="right" onClick={async() => {
+                                                    const ans= await downloadqr(req._id);
+                                                   
+                                                }}> <i class="fa fa-download"></i>  </button>
                                                 <h5 class="card-title">Vehicle Number: {req?.vehicle_no}</h5>
                                                 <p class="card-text">Customer ID: {req?.vehicle_owner?._id}</p>
                                                 <p class="card-text">Customer Name :{req?.vehicle_owner?.name}</p>

@@ -1,5 +1,8 @@
 import React,{useState} from 'react';
 import creditContext from "./creditContext"
+var fileDownload = require('js-file-download');
+
+
 
 const CreditState = (props) => {
     //const host = "https://fuelbuddybackend.onrender.com";
@@ -429,7 +432,7 @@ const searchByName = async(name) => {
       "Content-Type":"application/json",
       'auth-token':localStorage.getItem('auth-token')
     },
-    body: JSON.stringify({ name}),
+    body: JSON.stringify({name}),
 
   });
   
@@ -457,10 +460,84 @@ const filterByDuration = async(duration) => {
   console.log("filterbyduration",json)
   setAlltr(json);
 }
+
+//upload file 
+const uploadqr = async(file) => {
+
+
+  console.log("here upload qr")
+  let response = await fetch(`${host}/api/fuel/uploadqr`,{
+    method: "POST",
+
+    headers:{
+      "Content-Type":"application/json",
+      'auth-token':localStorage.getItem('auth-token')
+    },
+    body: file,
+
+  });
+  
+  const json = await response.json()
+  console.log("upload response",json)
+  
+}
+
+  //get qrimg string and convert into image and download
+  const downloadqr= async(id) =>{
+    console.log("api params",id)
+    const response = await fetch(`${host}/api/fuel/getqr/${id}`, { responseType: 'arraybuffer' },{
+      method:"GET",
+      // headers:{
+      //   "Content-Type":"application/json",
+      //   'auth-token':localStorage.getItem('auth-token')        
+      // }
+    });
+    const json=await response.json()
+    console.log("api call",json)
+    fileDownload(response.headers.contentType,'file.png', json);
+
+    
+  }
+  const readqr= async() =>{
+    const response = await fetch(`${host}/api/fuel/decodeqr`,{
+      method:"GET",
+      // headers:{
+      //   "Content-Type":"application/json",
+      //   'auth-token':localStorage.getItem('auth-token')        
+      // }
+    });
+    const json=await response.json()
+    console.log("api call readqr",json);
+
+
+    
+  }
+
+// //decode qr function
+// const readQRCode=async(fileName)=>{
+//   const filePath=path.join(__dirname,fileName);
+//   try{
+//     if(fs.existsSync(filePath)){
+//       const img = await jimp.read(filePath);
+//       const qr=new qrCode();
+//       const value=await new Promise((acc,rej)=>{
+//              qr.callback=(err,val)=>err!=null ? rej(err):acc(val);
+//              qr.decode(img.bitmap)
+//            });
+//            return value.result
+//     }
+
+//   }catch(error){
+//     return error.message;
+//   }
+
+// }
+
+  
   return (
 
 
-    <creditContext.Provider value={{pay,upcust,deletecust,updatecust,postpay,getownalltr,filterByDuration,searchByName,searchByvno,request,custdetails,deleteAtt,addAtt,updateAtt,cardpump,alltr,allatt,custtr,getcusttr,getcustdetails,getallatt,getalltr,getcardpumpat,credit,cust,custcredit,card,getcardsdetail,getcustomer,getrequest,completerequest,addRequest,addCustomer,getcredit,handleToggle,toggle,reactive}}>
+    <creditContext.Provider value={{readqr,downloadqr,uploadqr,pay,upcust,deletecust,updatecust,postpay,getownalltr,filterByDuration,searchByName,searchByvno,request,custdetails,deleteAtt,addAtt,updateAtt,cardpump,alltr,allatt,custtr,getcusttr,getcustdetails,getallatt,getalltr,getcardpumpat,credit,cust,custcredit,card,getcardsdetail,getcustomer,getrequest,completerequest,addRequest,addCustomer,getcredit,handleToggle,toggle,reactive}}>
 
 
     {props.children}
