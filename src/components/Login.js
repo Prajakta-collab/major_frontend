@@ -35,7 +35,7 @@ const Login = (props) => {
     e.preventDefault();
     //http://localhost:5001/api/auth/login
     //https://fuelbuddybackend.onrender.com/login
-    const response = await fetch("http://localhost:5001/api/auth/login", {
+    const response = await fetch("https://major-backend-3ezy.onrender.com/login", {
       method: "POST",
 
       headers: {

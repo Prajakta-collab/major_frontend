@@ -5,8 +5,8 @@ var fileDownload = require('js-file-download');
 
 
 const CreditState = (props) => {
-    //const host = "https://fuelbuddybackend.onrender.com";
-    const host="http://localhost:5001"
+    const host = "https://major-backend-3ezy.onrender.com";
+    // const host="http://localhost:5001"
 
        
     const [custcredit,setcustCredit]=useState({"vehicle_owner":"","available_credit":"","allowed_credit":""})
