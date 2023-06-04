@@ -34,8 +34,8 @@ const Login = (props) => {
     console.log("clicked login");
     e.preventDefault();
     //http://localhost:5001/api/auth/login
-    //https://fuelbuddybackend.onrender.com/login
-    const response = await fetch("https://major-backend-3ezy.onrender.com/login", {
+    //https://fuelbuddybackend.onrender.com/api/auth/login
+    const response = await fetch("https://major-backend-3ezy.onrender.com/api/auth/login", {
       method: "POST",
 
       headers: {
